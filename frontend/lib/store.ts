@@ -93,6 +93,9 @@ export interface AppState {
   // UI Panels
   activeRightTab: "swings" | "squaring" | "static_degree" | "rotations" | "look_ahead" | "backtest" | "projects";
   theme: "dark" | "light";
+  isLeftPanelOpen: boolean;
+  isRightPanelOpen: boolean;
+  activeMobileTab: "chart" | "controls" | "analysis";
 
   // Actions
   setSymbol: (sym: string) => void;
@@ -101,6 +104,11 @@ export interface AppState {
   setShowVolume: (show: boolean) => void;
   setActiveRightTab: (tab: AppState["activeRightTab"]) => void;
   setTheme: (t: "dark" | "light") => void;
+  toggleLeftPanel: () => void;
+  toggleRightPanel: () => void;
+  setLeftPanelOpen: (open: boolean) => void;
+  setRightPanelOpen: (open: boolean) => void;
+  setActiveMobileTab: (tab: "chart" | "controls" | "analysis") => void;
 
   updateBullGrid: (patch: Partial<GridConfig>) => void;
   updateBearGrid: (patch: Partial<GridConfig>) => void;
@@ -200,6 +208,9 @@ export const useStore = create<AppState>((set, get) => ({
 
   activeRightTab: "swings",
   theme: "dark",
+  isLeftPanelOpen: true,
+  isRightPanelOpen: true,
+  activeMobileTab: "chart",
 
   // Basic Setters
   setSymbol: (symbol) => {
@@ -214,6 +225,11 @@ export const useStore = create<AppState>((set, get) => ({
   setShowVolume: (showVolume) => set({ showVolume }),
   setActiveRightTab: (activeRightTab) => set({ activeRightTab }),
   setTheme: (theme) => set({ theme }),
+  toggleLeftPanel: () => set((s) => ({ isLeftPanelOpen: !s.isLeftPanelOpen })),
+  toggleRightPanel: () => set((s) => ({ isRightPanelOpen: !s.isRightPanelOpen })),
+  setLeftPanelOpen: (isLeftPanelOpen) => set({ isLeftPanelOpen }),
+  setRightPanelOpen: (isRightPanelOpen) => set({ isRightPanelOpen }),
+  setActiveMobileTab: (activeMobileTab) => set({ activeMobileTab }),
 
   updateBullGrid: (patch) => set((s) => ({ bullGrid: { ...s.bullGrid, ...patch } })),
   updateBearGrid: (patch) => set((s) => ({ bearGrid: { ...s.bearGrid, ...patch } })),

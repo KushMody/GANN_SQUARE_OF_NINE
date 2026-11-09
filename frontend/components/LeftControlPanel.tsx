@@ -10,7 +10,8 @@ import {
   Play,
   RotateCcw,
   Eye,
-  EyeOff
+  EyeOff,
+  X
 } from "lucide-react";
 
 export default function LeftControlPanel() {
@@ -20,6 +21,8 @@ export default function LeftControlPanel() {
     gridSettings,
     chartType,
     showVolume,
+    isLeftPanelOpen,
+    setLeftPanelOpen,
     updateBullGrid,
     updateBearGrid,
     updateGridSettings,
@@ -33,8 +36,32 @@ export default function LeftControlPanel() {
 
   const [activeTab, setActiveTab] = useState<"bull" | "bear" | "grid_settings" | "chart_settings">("bull");
 
+  if (!isLeftPanelOpen) {
+    return null;
+  }
+
   return (
-    <div className="w-80 h-full flex flex-col bg-slate-900 border-r border-slate-800 text-xs select-none">
+    <>
+      {/* Mobile / Tablet Backdrop */}
+      <div
+        onClick={() => setLeftPanelOpen(false)}
+        className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-30 transition-opacity"
+      />
+
+      <div className="fixed inset-y-0 left-0 z-40 w-[85vw] max-w-sm sm:max-w-md lg:static lg:z-auto lg:w-72 xl:w-80 h-full flex flex-col bg-slate-900 border-r border-slate-800 text-xs select-none shadow-2xl lg:shadow-none shrink-0">
+        {/* Mobile Close Header */}
+        <div className="flex items-center justify-between px-3 py-2 bg-slate-950 border-b border-slate-800 lg:hidden">
+          <span className="font-semibold text-slate-200 flex items-center gap-1.5">
+            <Sliders className="w-4 h-4 text-cyan-400" />
+            Grid Parameters & Controls
+          </span>
+          <button
+            onClick={() => setLeftPanelOpen(false)}
+            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       {/* Panel Tab Headers */}
       <div className="grid grid-cols-4 bg-slate-950 border-b border-slate-800 p-1 text-center font-medium">
         <button
@@ -593,5 +620,6 @@ export default function LeftControlPanel() {
         )}
       </div>
     </div>
-  );
+  </>
+);
 }

@@ -20,12 +20,15 @@ import {
   Save,
   Trash2,
   FileDown,
-  Upload
+  Upload,
+  X
 } from "lucide-react";
 
 export default function RightPanel() {
   const {
     activeRightTab,
+    isRightPanelOpen,
+    setRightPanelOpen,
     swings,
     selectedSwing,
     squaringResult,
@@ -151,8 +154,32 @@ export default function RightPanel() {
     );
   });
 
+  if (!isRightPanelOpen) {
+    return null;
+  }
+
   return (
-    <aside className="w-96 h-full flex flex-col bg-slate-900 border-l border-slate-800 text-xs select-none">
+    <>
+      {/* Mobile / Tablet Backdrop */}
+      <div
+        onClick={() => setRightPanelOpen(false)}
+        className="xl:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-30 transition-opacity"
+      />
+
+      <aside className="fixed inset-y-0 right-0 z-40 w-[92vw] max-w-sm sm:max-w-md md:max-w-lg xl:static xl:z-auto xl:w-80 2xl:w-96 h-full flex flex-col bg-slate-900 border-l border-slate-800 text-xs select-none shadow-2xl xl:shadow-none shrink-0">
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between px-3 py-2 bg-slate-950 border-b border-slate-800 xl:hidden">
+          <span className="font-semibold text-slate-200 flex items-center gap-1.5">
+            <Activity className="w-4 h-4 text-cyan-400" />
+            Analysis & Gann Tools
+          </span>
+          <button
+            onClick={() => setRightPanelOpen(false)}
+            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       {/* Navigation Tabs Header */}
       <div className="flex bg-slate-950 border-b border-slate-800 p-1 text-[11px] overflow-x-auto">
         <button
@@ -886,5 +913,6 @@ export default function RightPanel() {
         )}
       </div>
     </aside>
-  );
+  </>
+);
 }
